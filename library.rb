@@ -11,8 +11,10 @@ class Book
     @author = author
     @status = "available"
     @id = nil
+  end
 
-
+  def check_out
+    @status = "checked_out"
   end
 
 end
@@ -20,6 +22,8 @@ end
 class Library
 
   def initialize(name, location)
+
+    attr_accessor
     @name = name
     @location = location
     @books_in_stock = Array.new
@@ -27,6 +31,15 @@ class Library
   end
 
   def add_book
+  end
+
+  def check_out_book(book, borrower)
+    book.check_out
+    #@books_in_stock.delete(book)
+    #@books_checked_out << {book => borrower}
+  end
+
+  def check_in_book(book, borrower)
   end
 
   def in_stock
@@ -47,7 +60,9 @@ class Borrower
     @currently_borrowed = Array.new
   end
 
-  def check_out(book)
+  def check_out(library, book)
+    library.check_out_book(book, self.name)
+    @currently_borrowed << {book => library}
   end
 
   def check_in(book)
