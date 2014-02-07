@@ -1,37 +1,54 @@
 
+#Ruby Library Project MKS WEEK 1
+
 class Book
-  attr_reader :author
+
+  attr_reader :title, :author
+  attr_accessor :status
 
   def initialize(title, author)
+    @title = title
     @author = author
-  end
-end
+    @status = "In Stock"
 
-class Borrower
-  def initialize(name)
+
   end
+
 end
 
 class Library
-  def initialize(name)
-    @books = []
+
+  def initialize(name, location)
+    @name = name
+    @location = location
+    @books_in_stock = Array.new
+    @books_checked_out = Array.new
   end
 
-  def books
+  def add_book
   end
 
-  def add_book(title, author)
+  def in_stock
   end
 
-  def check_out_book(book_id, borrower)
+  def checked_out
   end
 
-  def check_in_book(book)
+end
+
+
+class Borrower
+
+  attr_reader :name, :currently_borrowed
+
+  def initialize
+    @name = name
+    @currently_borrowed = Array.new
   end
 
-  def available_books
+  def check_out(book)
   end
 
-  def borrowed_books
+  def check_in(book)
   end
 end
