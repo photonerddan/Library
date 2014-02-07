@@ -6,10 +6,10 @@ class Book
   attr_reader :title, :author, :id
   attr_accessor :status
 
-  def initialize(title, author)
+  def initialize(title = "unknown", author = "unknown")
     @title = title
     @author = author
-    @status = "In Stock"
+    @status = "available"
     @id = nil
 
 
