@@ -64,7 +64,7 @@ class Borrower
 
   attr_reader :name, :currently_borrowed
 
-  def initialize
+  def initialize(name)
     @name = name
     @currently_borrowed = Array.new
   end

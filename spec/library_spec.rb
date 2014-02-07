@@ -27,7 +27,7 @@ describe Book do
 end
 
 describe Borrower do
-  xit "has a name" do
+  it "has a name" do
     borrower = Borrower.new("Mike")
     expect(borrower.name).to eq "Mike"
   end
@@ -35,9 +35,9 @@ end
 
 describe Library do
 
-  xit "starts with an empty array of books" do
-    lib = Library.new
-    expect(lib.books.count).to eq(0)
+  it "starts with an empty array of books" do
+    lib = Library.new("Public Library", "Austin, Tx")
+    expect(lib.books_in_stock.count).to eq(0)
   end
 
   xit "add new books and assigns it an id" do
