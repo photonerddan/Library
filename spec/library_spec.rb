@@ -17,25 +17,8 @@ describe Book do
     expect(book.status).to eq 'available'
   end
 
-  it "can be checked out" do
-    book = Book.new
-    did_it_work = book.check_out
-    expect(did_it_work).to be_true
-    expect(book.status).to eq 'checked_out'
-  end
 
-  xit "can't be checked out twice in a row" do
-    book = Book.new
-    did_it_work = book.check_out
-    expect(did_it_work).to eq(true)
-
-    did_it_work_again = book.check_out
-    expect(did_it_work_again).to eq(false)
-
-    expect(book.status).to eq 'checked_out'
-  end
-
-  xit "can be checked in" do
+  it "can be checked in" do
     book = Book.new
     book.check_out
     book.check_in

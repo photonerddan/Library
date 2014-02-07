@@ -17,13 +17,18 @@ class Book
     @status = "checked_out"
   end
 
+  def check_in
+    @status = "available"
+  end
 end
+
+
 
 class Library
 
-  def initialize(name, location)
+   attr_reader :books_in_stock
 
-    attr_accessor
+  def initialize(name, location)
     @name = name
     @location = location
     @books_in_stock = Array.new
@@ -34,10 +39,16 @@ class Library
   end
 
   def check_out_book(book, borrower)
-    book.check_out
-    #@books_in_stock.delete(book)
-    #@books_checked_out << {book => borrower}
+    @books_in_stock.each{|x| in_stock = true if x === book}
+    if in_stock
+      book.check_out
+      @books_in_stock.delete(book)
+      @books_checked_out << {book => borrower}
+      true
+    else
+      false
   end
+end
 
   def check_in_book(book, borrower)
   end
@@ -45,8 +56,6 @@ class Library
   def in_stock
   end
 
-  def checked_out
-  end
 
 end
 
@@ -61,9 +70,19 @@ class Borrower
   end
 
   def check_out(library, book)
-    library.check_out_book(book, self.name)
-    @currently_borrowed << {book => library}
-  end
+    @currently_borrowed.each do|x|
+     if x === book
+       already_borrowed = true
+     end
+   end
+   if !already_borrowed
+     if library.check_out_book(book, self.name)
+       @currently_borrowed << {book => library}
+     else
+      "This book is unavailable. Please check later.."
+    end
+   end
+ end
 
   def check_in(book)
   end
