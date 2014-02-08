@@ -26,7 +26,7 @@ end
 
 class Library
 
-   attr_reader :books_in_stock
+   attr_reader :books_in_stock, :books_checked_out
 
   def initialize(name, location)
     @name = name
@@ -42,7 +42,7 @@ class Library
   end
 
   def check_out_book(book_id, borrower)
-    book = @books_in_stock.find {|x| x.id === book_id}
+    book = @books_in_stock.find {|x| x if x.id === book_id}
     if !book.nil?
       book.check_out
       @books_in_stock.delete(book)
@@ -53,8 +53,22 @@ class Library
     end
   end
 
-  def check_in_book(book, borrower)
+  def check_in_book(book_title, borrower)
+    checked_out = false
+    found_book = nil
+    borrow_record = @books_checked_out.find do |x|
+     if x[0].title === book_title
+      found_book = x[0]
+      checked_out = true
+      x
+     end
+   end
+   if checked_out
+    found_book.check_in
+    @books_in_stock << found_book
+    @books_checked_out.delete(borrow_record)
   end
+end
 
   def get_borrower(book_id)
     borrower = nil
@@ -78,21 +92,33 @@ class Borrower
     @currently_borrowed = Array.new
   end
 
-  def check_out(library, book)
+  def check_out(library, book_title, book_id)
     @currently_borrowed.each do|x|
-     if x === book
+     if [book_title, library] === x
        already_borrowed = true
      end
    end
    if !already_borrowed
-     if library.check_out_book(book, self.name)
-       @currently_borrowed << {book => library}
+     if library.check_out_book(book_id, self.name)
+       @currently_borrowed << [book_title, library]
      else
       "This book is unavailable. Please check later.."
     end
    end
  end
 
-  def check_in(book)
+  def check_in(book_title, library)
+    found_book
+    checked_out = false
+    @currently_borrowed.find do |x|
+      if x[0] === book_title
+        check_out = true
+        found_book = x
+      end
+    end
+    if checked_out
+      library.check_in_book(book_title, self.name)
+      @currently_borrowed.delete(found_book)
+    end
   end
 end

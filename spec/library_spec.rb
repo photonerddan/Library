@@ -107,17 +107,17 @@ describe Library do
     expect(book_again).to be_false
   end
 
-  xit "allows a Borrower to check a book back in" do
+  it "allows a Borrower to check a book back in" do
     lib = Library.new("Public Library", "Austin, Tx")
-    lib.register_new_book("Finnegans Wake", "James Joyce")
-    book_id = lib.books.first.id
+    lib.add_book("Finnegans Wake", "James Joyce")
+    book_id = lib.books_in_stock.first.id
 
     # Bob wants to check out Finnegans Wake
     bob = Borrower.new('Bob Bobber')
     book = lib.check_out_book(book_id, bob)
 
     # o wait he changed his mind
-    lib.check_in_book(book)
+    lib.check_in_book(lib.books_checked_out[0][0].title, 'Bob Bobber')
 
     # The book should now be marked as available!
     expect(book.status).to eq 'available'
