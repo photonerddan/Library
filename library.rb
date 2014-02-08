@@ -46,7 +46,7 @@ class Library
     if !book.nil?
       book.check_out
       @books_in_stock.delete(book)
-      @books_checked_out << {book => borrower}
+      @books_checked_out << [book, borrower]
       book
     else
       false
@@ -55,6 +55,12 @@ class Library
 
   def check_in_book(book, borrower)
   end
+
+  def get_borrower(book_id)
+    borrower = nil
+    @books_checked_out.find { |x| borrower = x[1].name if x[0].id === book_id }
+    borrower
+    end
 
   def in_stock
   end
