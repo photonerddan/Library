@@ -41,17 +41,17 @@ class Library
     @books_in_stock << Book.new(title, author, @book_count)
   end
 
-  def check_out_book(book, borrower)
-    @books_in_stock.each{|x| in_stock = true if x === book}
-    if in_stock
+  def check_out_book(book_id, borrower)
+    book = @books_in_stock.find {|x| x.id === book_id}
+    if !book.nil?
       book.check_out
       @books_in_stock.delete(book)
       @books_checked_out << {book => borrower}
-      true
+      book
     else
       false
+    end
   end
-end
 
   def check_in_book(book, borrower)
   end
