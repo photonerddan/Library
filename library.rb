@@ -45,8 +45,8 @@ class Library
     book = @books_in_stock.find {|x| x if x.id === book_id}
     if !book.nil?
       book.check_out
-      @books_in_stock.delete(book)
       @books_checked_out << [book, borrower]
+      @books_in_stock.delete(book)
       book
     else
       false
@@ -93,19 +93,27 @@ class Borrower
   end
 
   def check_out(library, book_title, book_id)
-    @currently_borrowed.each do|x|
-     if [book_title, library] === x
-       already_borrowed = true
+    already_borrowed = false
+    if @currently_borrowed.length < 2
+      @currently_borrowed.each do |x|
+       if [book_title, library] === x
+         already_borrowed = true
+       end
      end
-   end
-   if !already_borrowed
-     if library.check_out_book(book_id, self.name)
-       @currently_borrowed << [book_title, library]
-     else
-      "This book is unavailable. Please check later.."
-    end
-   end
- end
+     if !already_borrowed
+       if library.check_out_book(book_id, self.name)
+         @currently_borrowed << [book_title, library]
+         book_title
+       else
+        "This book is unavailable. Please check later.."
+      end
+     end
+   else
+    puts "Please return one of your other books first:"
+    @currently_borrowed.each{|x| puts "#{x[0]} from #{x[1]}"}
+    nil
+  end
+end
 
   def check_in(book_title, library)
     found_book
