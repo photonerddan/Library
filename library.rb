@@ -26,7 +26,7 @@ end
 
 class Library
 
-   attr_reader :books_in_stock, :books_checked_out
+   attr_reader :books_in_stock, :books_checked_out, :name
 
   def initialize(name, location)
     @name = name
@@ -110,7 +110,7 @@ class Borrower
      end
    else
     puts "Please return one of your other books first:"
-    @currently_borrowed.each{|x| puts "#{x[0]} from #{x[1]}"}
+    @currently_borrowed.each{|x| puts "#{x[0]} from #{x[1].name}"}
     nil
   end
 end

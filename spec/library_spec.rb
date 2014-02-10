@@ -146,37 +146,37 @@ describe Library do
     expect(book).to be_nil
   end
 
-  xit "returns available books" do
+  it "returns available books" do
     lib = Library.new("Public Library", "Austin, Tx")
     lib.add_book("Eloquent JavaScript", "Marijn Haverbeke")
     lib.add_book("Essential JavaScript Design Patterns", "Addy Osmani")
     lib.add_book("JavaScript: The Good Parts", "Douglas Crockford")
 
     # At first, all books are available
-    expect(lib.available_books.count).to eq(3)
-    expect(lib.available_books.first).to be_a?(Book)
+    expect(lib.books_in_stock.count).to eq(3)
+    expect(lib.books_in_stock.first).to be_a(Book)
 
     jordan = Borrower.new("Michael jordan")
-    book = lib.check_out_book(lib.available_books.first.id, jordan)
+    book = lib.check_out_book(lib.books_in_stock.first.id, jordan)
 
     # But now, there should only be two available books
-    expect(lib.available_books.count).to eq(2)
+    expect(lib.books_in_stock.count).to eq(2)
   end
 
-  xit "returns borrowed books" do
+  it "returns borrowed books" do
     lib = Library.new("Public Library", "Austin, Tx")
     lib.add_book("Eloquent JavaScript", "Marijn Haverbeke")
     lib.add_book("Essential JavaScript Design Patterns", "Addy Osmani")
     lib.add_book("JavaScript: The Good Parts", "Douglas Crockford")
 
     # At first, no books are checked out
-    expect(lib.borrowed_books.count).to eq(0)
+    expect(lib.books_checked_out.count).to eq(0)
 
     kors = Borrower.new("Michael Kors")
-    book = lib.check_out_book(lib.borrowed_books.first.id, kors)
+    book = lib.check_out_book(lib.books_in_stock.first.id, kors)
 
     # But now there should be one checked out book
-    expect(lib.borrowed_books.count).to eq(1)
-    expect(lib.borrowed_books.first).to be_a?(Book)
+    expect(lib.books_checked_out.count).to eq(1)
+    expect(lib.books_checked_out.first[0]).to be_a(Book)
   end
 end
