@@ -77,6 +77,9 @@ end
     end
 
   def in_stock
+    puts "Here are the books currently available for checkout.
+    Please request checkout by book ID:"
+    @books_in_stock.each{|x| puts "BOOK ID: #{x.id}--#{x.title} by #{x.author}"}
   end
 
 
